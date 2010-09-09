@@ -1,0 +1,4 @@
+= dm-validations-ext
+
+DataMapper plugin providing extra access to various error massages that may occur
+while saving/updating/destroying resources, especially the ones coming from associated child objects.
