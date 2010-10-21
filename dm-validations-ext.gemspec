@@ -9,12 +9,31 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Piotr Solnica"]
-  s.date = %q{2010-09-09}
+  s.date = %q{2010-10-21}
   s.description = %q{DataMapper plugin providing better error messages handling.}
   s.email = %q{piotr.solnica [a] gmail [d] com}
   s.extra_rdoc_files = [
     "LICENSE",
      "README.rdoc"
+  ]
+  s.files = [
+    ".gitignore",
+     "Gemfile",
+     "LICENSE",
+     "README.rdoc",
+     "Rakefile",
+     "VERSION",
+     "dm-validations-ext.gemspec",
+     "lib/dm-validations-ext.rb",
+     "spec/public/validations_ext_spec.rb",
+     "spec/rcov.opts",
+     "spec/spec_helper.rb",
+     "tasks/ci.rake",
+     "tasks/local_gemfile.rake",
+     "tasks/metrics.rake",
+     "tasks/spec.rake",
+     "tasks/yard.rake",
+     "tasks/yardstick.rake"
   ]
   s.has_rdoc = %q{yard}
   s.homepage = %q{http://github.com/solnic/dm-validations-ext}
@@ -24,7 +43,7 @@ Gem::Specification.new do |s|
   s.summary = %q{DataMapper plugin providing better error messages handling.}
   s.test_files = [
     "spec/spec_helper.rb",
-     "spec/public/child_associations_spec.rb"
+     "spec/public/validations_ext_spec.rb"
   ]
 
   if s.respond_to? :specification_version then
