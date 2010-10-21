@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe DataMapper::ValidationsExt::ChildAssociations do
+describe DataMapper::ValidationsExt do
   supported_by :all do
     before :all do
       class User
@@ -30,17 +30,16 @@ describe DataMapper::ValidationsExt::ChildAssociations do
         @role = Role.new
         @user.roles << @role
         @role_errors = [ @role.errors ]
-
-        @user.validate_children!
       end
 
-      describe "#children_valid?" do
-        subject { @user.children_valid? }
+      describe "#save" do
+        subject { @user.save }
 
         it { should be(false) }
       end
 
       describe "#errors" do
+        before  { @user.save }
         subject { @user.errors[:roles] }
 
         it { should_not be_nil }
@@ -53,12 +52,10 @@ describe DataMapper::ValidationsExt::ChildAssociations do
       before :all do
         @user = User.create(:name => 'Jane')
         @user.roles << @user.roles.new(:name => "SuperUser")
-
-        @user.validate_children!
       end
 
-      describe "#children_valid?" do
-        subject { @user.children_valid? }
+      describe "#save" do
+        subject { @user.save }
 
         it { should be(true) }
       end

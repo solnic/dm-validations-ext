@@ -1,45 +1,47 @@
 module DataMapper
-  ##
-  # @author Piotr Solnica
   module ValidationsExt
-    module ChildAssociations
-      ##
-      # Checks if the associated child objects are valid
-      #
-      # @return [Boolean]
-      #   true if all are valid, otherwise false
-      # @api public
-      def children_valid?
-        validate_children!
-        child_relationships.all? { |relationship| errors[relationship.name].empty? }
+    def _save
+      result = super
+
+      unless result
+        validate          if dirty_self?
+        validate_parents  if dirty_parents?
+        validate_children if dirty_children?
       end
 
-      ##
-      # Forces validation of all the associated child objects. Errors will be
-      # available through errors object indexed by child association names.
-      #
-      # @api public
-      def validate_children!
-        child_associations.each do |collection|
-          if collection.dirty?
-            add_children_errors_for(collection)
+      result
+    end
+
+    def validate
+      valid?
+    end
+
+    def validate_parents
+      parent_relationships.each do |relationship|
+        parent = relationship.get(self)
+        unless parent.valid?
+          unless errors[relationship.name].include?(parent.errors)
+            errors[relationship.name] = parent.errors
           end
         end
       end
+    end
 
-      protected
-
-      ##
-      # @api private
-      def add_children_errors_for(collection)
-        collection.each do |child|
-          unless child.valid?
-            (errors[collection.relationship.name] ||= []) << child.errors
+    def validate_children
+      child_associations.each do |collection|
+        if collection.dirty?
+          collection.each do |child|
+            unless child.valid?
+              relationship_errors = (errors[collection.relationship.name] ||= [])
+              unless relationship_errors.include?(child.errors)
+                relationship_errors << child.errors
+              end
+            end
           end
         end
       end
+    end
 
-      Model.append_inclusions self
-    end # ChildrenErrors
-  end # DetailedErrors
+    Model.append_inclusions self
+  end # ValidationsExt
 end # DataMapper
