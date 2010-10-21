@@ -1,8 +1,9 @@
 module DataMapper
   module ValidationsExt
-    def _save
+    def _save(execute_hooks = true)
       result = super
 
+      # TODO: should we wrap it with run_once?
       unless result
         validate          if dirty_self?
         validate_parents  if dirty_parents?
