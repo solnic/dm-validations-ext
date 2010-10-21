@@ -2,3 +2,54 @@
 
 DataMapper plugin providing extra access to various error massages that may occur
 while saving/updating/destroying resources, especially the ones coming from associated child objects.
+
+= Example
+
+  DataMapper.setup :default, "sqlite::memory"
+
+  class User
+    include DataMapper::Resource
+
+    property :id, Serial
+    property :name, String
+
+    belongs_to :group
+    has n, :roles
+  end
+
+  class Group
+    include DataMapper::Resource
+
+    property :id, Serial
+    property :name, String, :length => 10..255
+
+    has n, :users
+  end
+
+  class Role
+    include DataMapper::Resource
+
+    property :id, Serial
+    property :name, String, :length => 4..10
+
+    belongs_to :user
+  end
+
+  DataMapper.finalize
+  DataMapper.auto_migrate!
+
+  user  = User.new(:name => "John")
+  group = Group.new(:name => "Too Short")
+  role  = Role.new(:name => "Way Too Long")
+
+  user.group = group
+  user.roles << role
+
+  user.save
+  # => false
+
+  user.errors[:group].inspect
+  # => <DataMapper::Validations::ValidationErrors:0xa098a30 @resource=#<Group @id=nil @name="Too Short">, @errors={:name=>["Name must be between 10 and 255 characters long"]}>
+
+  user.errors[:roles].inspect
+  # => [#<DataMapper::Validations::ValidationErrors:0xa0931ac @resource=#<Role @id=nil @name="Way Too Long" @user_id=nil>, @errors={:name=>["Name must be between 4 and 10 characters long"], :user_id=>["User must not be blank"]}>]
