@@ -16,7 +16,7 @@ begin
 
     gem.add_dependency 'dm-validations',  '~> 1.0.2'
 
-    gem.add_development_dependency 'rspec',   '~> 1.3'
+    gem.add_development_dependency 'rspec',   '~> 2.0.1'
     gem.add_development_dependency 'jeweler', '~> 1.4'
   end
 

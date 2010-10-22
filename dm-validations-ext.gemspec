@@ -52,16 +52,16 @@ Gem::Specification.new do |s|
 
     if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('1.2.0') then
       s.add_runtime_dependency(%q<dm-validations>, ["~> 1.0.2"])
-      s.add_development_dependency(%q<rspec>, ["~> 1.3"])
+      s.add_development_dependency(%q<rspec>, ["~> 2.0.1"])
       s.add_development_dependency(%q<jeweler>, ["~> 1.4"])
     else
       s.add_dependency(%q<dm-validations>, ["~> 1.0.2"])
-      s.add_dependency(%q<rspec>, ["~> 1.3"])
+      s.add_dependency(%q<rspec>, ["~> 2.0.1"])
       s.add_dependency(%q<jeweler>, ["~> 1.4"])
     end
   else
     s.add_dependency(%q<dm-validations>, ["~> 1.0.2"])
-    s.add_dependency(%q<rspec>, ["~> 1.3"])
+    s.add_dependency(%q<rspec>, ["~> 2.0.1"])
     s.add_dependency(%q<jeweler>, ["~> 1.4"])
   end
 end
