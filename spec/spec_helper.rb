@@ -10,7 +10,7 @@ SPEC_ROOT = Pathname(__FILE__).dirname
 DataMapper::Spec.setup
 DataMapper.finalize
 
-Spec::Runner.configure do |config|
+RSpec.configure do |config|
   config.extend(DataMapper::Spec::Adapters::Helpers)
 
   config.before :suite do
