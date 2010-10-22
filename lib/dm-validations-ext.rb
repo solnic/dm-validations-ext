@@ -13,10 +13,19 @@ module DataMapper
       result
     end
 
+    # Run validations on the resource
+    #
+    # @return [Boolean]
+    #   true if the resource is valid
+    #
+    # @api public
     def validate
       valid?
     end
 
+    # Run validations on the associated parent resources
+    #
+    # @api semipublic
     def validate_parents
       parent_relationships.each do |relationship|
         parent = relationship.get(self)
@@ -28,6 +37,9 @@ module DataMapper
       end
     end
 
+    # Run validations on the associated child resources
+    #
+    # @api semipublic
     def validate_children
       child_associations.each do |collection|
         if collection.dirty?
