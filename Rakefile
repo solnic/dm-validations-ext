@@ -14,7 +14,7 @@ begin
     gem.authors     = [ 'Piotr Solnica' ]
     gem.has_rdoc    = 'yard'
 
-    gem.add_dependency 'dm-validations',  '~> 1.0.2'
+    gem.add_dependency 'dm-validations',  '~> 1.1.0'
 
     gem.add_development_dependency 'rspec',   '~> 2.0.1'
     gem.add_development_dependency 'jeweler', '~> 1.4'

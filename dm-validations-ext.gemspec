@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Piotr Solnica"]
-  s.date = %q{2010-10-22}
+  s.date = %q{2010-10-26}
   s.description = %q{DataMapper plugin providing better error messages handling.}
   s.email = %q{piotr.solnica [a] gmail [d] com}
   s.extra_rdoc_files = [

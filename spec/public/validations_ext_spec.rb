@@ -48,7 +48,7 @@ describe DataMapper::ValidationsExt do
         describe "#errors" do
           before { @user.save }
           subject { @user.errors[:group] }
-          it { should be_blank }
+          it { should be_empty }
         end
       end
 
@@ -116,7 +116,7 @@ describe DataMapper::ValidationsExt do
         describe "#errors" do
           subject { @user.errors[:roles] }
 
-          it { should be_blank }
+          it { should be_empty }
         end
       end
     end
