@@ -6,10 +6,17 @@ module DataMapper
       # Make sure we've only got one transaction. Nested transactions
       # aren't supported by all databases.
       transaction_active = !repository.adapter.current_transaction.nil?
-      t = Transaction.new repository
+
+      unless transaction_active
+        t = Transaction.new repository
+        t.begin
+      else
+        t = repository.adapter.current_transaction
+      end
       
-      t.begin unless transaction_active
-      result = super
+      t.within do
+        result = super
+      end
 
       # TODO: should we wrap it with run_once?
       unless result
