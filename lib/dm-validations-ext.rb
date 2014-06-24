@@ -1,13 +1,32 @@
 module DataMapper
   module ValidationsExt
     def _save(execute_hooks = true)
-      result = super
+      result = true
+      
+      # Make sure we've only got one transaction. Nested transactions
+      # aren't supported by all databases.
+      transaction_active = !repository.adapter.current_transaction.nil?
+
+      unless transaction_active
+        t = Transaction.new repository
+        t.begin
+      else
+        t = repository.adapter.current_transaction
+      end
+      
+      t.within do
+        result = super
+      end
 
       # TODO: should we wrap it with run_once?
       unless result
         validate          if dirty_self?
         validate_parents  if dirty_parents?
         validate_children if dirty_children?
+        
+        t.rollback unless transaction_active
+      else
+        t.commit unless transaction_active
       end
 
       result
